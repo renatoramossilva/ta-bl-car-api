@@ -1,4 +1,5 @@
 """ This module contains the service functions for the car booking API. """
+from typing import Optional
 import json
 import pathlib
 from datetime import datetime
@@ -9,7 +10,7 @@ def get_file_path(filename: str) -> pathlib.Path:
     return pathlib.Path(__file__).parent.parent / "app" / "db" / filename
 
 
-def save_data(file_path: str, data: dict) -> None:
+def save_data(file_path: pathlib.Path, data: dict) -> None:
     """
     Save data to a JSON file.
 
@@ -20,7 +21,7 @@ def save_data(file_path: str, data: dict) -> None:
         json.dump(data, file, indent=4)
 
 
-def load_data(file_path: str) -> dict:
+def load_data(file_path: pathlib.Path) -> dict:
     """
     Load data from a JSON file.
 
@@ -53,7 +54,7 @@ def list_cars() -> list:
 
 
 def create_booking(
-    car_id: str, start_date: str, end_date: str, pickup_time: str, dropoff_time: str
+    car_id: int, start_date: str, end_date: str, pickup_time: str, dropoff_time: str
 ) -> bool:
     """
     Creates a booking for a car within a specified date range and time.
@@ -75,8 +76,11 @@ def create_booking(
     """
     # Load data from files
     cars = load_data(get_file_path("cars.json")).get("cars", [])
-    bookings = load_data(get_file_path("bookings.json"))
+    bookings_data = load_data(get_file_path("bookings.json"))
+    bookings = bookings_data.get("bookings", [])
 
+    print("bookings")
+    print(bookings)
     # Check if car exists
     car = next((car for car in cars if car["id"] == car_id), None)
     if not car:
@@ -106,7 +110,8 @@ def create_booking(
         "dropoffTime": dropoff_time,
     }
     bookings.append(new_booking)
-    save_data(get_file_path("bookings.json"), bookings)
+    bookings_data["bookings"] = bookings
+    save_data(get_file_path("bookings.json"), bookings_data)
 
     return True
 
@@ -140,7 +145,7 @@ def is_car_available(car_id: int, start_date: str, end_date: str) -> bool:
 
 
 def check_car_availability(
-    start_date: str, end_date: str, car_model: str = None
+    start_date: str, end_date: str, car_model: Optional[str] = None
 ) -> list:
     """
     Checks the availability of cars for a given date range, optionally filtering by car model.

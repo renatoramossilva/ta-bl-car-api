@@ -58,7 +58,7 @@ def get_all_cars() -> dict:
 
 @router.get("/check_car_availability")
 def check_availability(
-    start_date: str, end_date: str, car_model: Optional[str] = None
+    start_date: str, end_date: str, car_model: str | None
 ) -> dict:
     """
     Endpoint to check the availability of cars for a given date range and optional car model.
