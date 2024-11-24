@@ -5,6 +5,7 @@ app = FastAPI()
 
 app.include_router(router)
 
+
 @app.get("/")
 def home():
     return {"message": "Welcome to rental car API!"}

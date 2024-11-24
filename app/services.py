@@ -26,7 +26,7 @@ def load_data(file_path: str) -> dict:
     :param file_path: Path to the JSON file to load data from.
     :return: Data loaded from the JSON file.
     """
-    with open(file_path, 'r') as file:
+    with open(file_path, "r") as file:
         return json.load(file)
 
 
@@ -43,12 +43,16 @@ def list_cars() -> list:
     """
     try:
         data = load_data(get_file_path("cars.json"))
-        return data.get("cars", [])  # Return the list of cars or an empty list if 'cars' key is not found
+        return data.get(
+            "cars", []
+        )  # Return the list of cars or an empty list if 'cars' key is not found
     except Exception as e:
         raise RuntimeError(f"Erro ao carregar os carros: {e}")
 
 
-def create_booking(car_id: str, start_date: str, end_date: str, pickup_time: str, dropoff_time: str) -> bool:
+def create_booking(
+    car_id: str, start_date: str, end_date: str, pickup_time: str, dropoff_time: str
+) -> bool:
     """
     Creates a booking for a car within a specified date range and time.
 
@@ -82,9 +86,11 @@ def create_booking(car_id: str, start_date: str, end_date: str, pickup_time: str
 
     # Check for overlapping bookings
     if any(
-        booking["car_id"] == car_id and
-        not (end_date_obj < datetime.strptime(booking["startDate"], "%Y-%m-%d") or
-             start_date_obj > datetime.strptime(booking["endDate"], "%Y-%m-%d"))
+        booking["car_id"] == car_id
+        and not (
+            end_date_obj < datetime.strptime(booking["startDate"], "%Y-%m-%d")
+            or start_date_obj > datetime.strptime(booking["endDate"], "%Y-%m-%d")
+        )
         for booking in bookings
     ):
         return False
@@ -95,7 +101,7 @@ def create_booking(car_id: str, start_date: str, end_date: str, pickup_time: str
         "startDate": start_date,
         "endDate": end_date,
         "pickupTime": pickup_time,
-        "dropoffTime": dropoff_time
+        "dropoffTime": dropoff_time,
     }
     bookings.append(new_booking)
     save_data(get_file_path("bookings.json"), bookings)
@@ -131,7 +137,9 @@ def is_car_available(car_id: int, start_date: str, end_date: str) -> bool:
     return True  # The car is available
 
 
-def check_car_availability(start_date: str, end_date: str, car_model: str = None) -> list:
+def check_car_availability(
+    start_date: str, end_date: str, car_model: str = None
+) -> list:
     """
     Checks the availability of cars for a given date range, optionally filtering by car model.
 
