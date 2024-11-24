@@ -1,0 +1,16 @@
+[
+    {
+        "car_id": 7,
+        "startDate": "2024-11-25",
+        "endDate": "2024-11-30",
+        "pickupTime": "09:00",
+        "dropoffTime": "18:00"
+    },
+    {
+        "car_id": 1,
+        "startDate": "2024-11-25",
+        "endDate": "2024-11-30",
+        "pickupTime": "09:00",
+        "dropoffTime": "18:00"
+    }
+]

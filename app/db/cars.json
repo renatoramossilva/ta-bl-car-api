@@ -1,0 +1,14 @@
+{
+    "cars": [
+        {"id": 1, "name": "SEAT Ibiza"},
+        {"id": 2, "name": "Volkswagen Polo"},
+        {"id": 3, "name": "Renault Clio"},
+        {"id": 4, "name": "Peugeot 208"},
+        {"id": 5, "name": "Ford Fiesta"},
+        {"id": 6, "name": "Opel Corsa"},
+        {"id": 7, "name": "Citroën C3"},
+        {"id": 8, "name": "Toyota Yaris"},
+        {"id": 9, "name": "Dacia Sandero"},
+        {"id": 10, "name": "Kia Rio"}
+    ]
+}
