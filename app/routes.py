@@ -1,9 +1,14 @@
 from fastapi import APIRouter, HTTPException
-from app.services import check_car_availability, create_booking as create_booking_service, list_cars
+from app.services import (
+    check_car_availability,
+    create_booking as create_booking_service,
+    list_cars,
+)
 from typing import Optional
 from pydantic import BaseModel
 
 router = APIRouter()
+
 
 class BookingRequest(BaseModel):
     car_id: int
@@ -20,10 +25,10 @@ def get_all_cars() -> dict:
 
     **Request Body:**
     - None
-    
+
     **Returns:**
     A dictionary containing the list of all cars in the company's fleet
-    
+
     **Example Request:**
     ```
     {
@@ -48,7 +53,9 @@ def get_all_cars() -> dict:
 
 
 @router.get("/check_car_availability")
-def check_availability(start_date: str, end_date: str, car_model: Optional[str] = None) -> dict:
+def check_availability(
+    start_date: str, end_date: str, car_model: Optional[str] = None
+) -> dict:
     """
     Endpoint to check the availability of cars for a given date range and optional car model.
 
@@ -63,7 +70,7 @@ def check_availability(start_date: str, end_date: str, car_model: Optional[str] 
     **Returns:**
     - `available_cars`: A dictionary containing a list of available cars for the given date range and model.
               The list is provided under the key "available_cars".
-    
+
     **Example Request:**
     - If the car is available:
     ```
@@ -93,7 +100,10 @@ def check_availability(start_date: str, end_date: str, car_model: Optional[str] 
     available_cars = check_car_availability(start_date, end_date, car_model)
 
     if not available_cars:
-        raise HTTPException(status_code=404, detail="No available cars found for the given dates and model.")
+        raise HTTPException(
+            status_code=404,
+            detail="No available cars found for the given dates and model.",
+        )
 
     return {"available_cars": available_cars}
 
@@ -108,17 +118,23 @@ def post_booking(booking: BookingRequest) -> dict:
 
     **Returns:**
     A message indicating the success or failure of the booking process.
-    
+
     **Raises:**
     - `HTTPException` if the car is already booked for the given time range or there is an error.
     """
     try:
         success = create_booking_service(
-            booking.car_id, booking.start_date, booking.end_date, booking.pickup_time, booking.dropoff_time
+            booking.car_id,
+            booking.start_date,
+            booking.end_date,
+            booking.pickup_time,
+            booking.dropoff_time,
         )
         if success:
             return {"message": "Booking successfully created!"}
         else:
-            raise HTTPException(status_code=400, detail="Car already booked for the given time range.")
+            raise HTTPException(
+                status_code=400, detail="Car already booked for the given time range."
+            )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
