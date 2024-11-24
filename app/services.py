@@ -126,7 +126,7 @@ def is_car_available(car_id: int, start_date: str, end_date: str) -> bool:
     :return: `True` if the car is available, `False` if it is already booked.
     """
     with open(get_file_path("bookings.json"), "r", encoding="utf-8") as file:
-        bookings_data = json.load(file)
+        bookings_data = json.load(file).get("bookings", [])
 
     # Iterate through all bookings
     for booking in bookings_data:
