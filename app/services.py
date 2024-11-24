@@ -1,3 +1,4 @@
+""" This module contains the service functions for the car booking API. """
 from datetime import datetime
 import json
 import pathlib
@@ -15,7 +16,7 @@ def save_data(file_path: str, data: dict) -> None:
     :param file_path: Path to the file where data will be saved.
     :param data: Data to be saved in the JSON format.
     """
-    with open(file_path, "w") as file:
+    with open(file_path, "w", encoding="utf-8") as file:
         json.dump(data, file, indent=4)
 
 
@@ -26,7 +27,7 @@ def load_data(file_path: str) -> dict:
     :param file_path: Path to the JSON file to load data from.
     :return: Data loaded from the JSON file.
     """
-    with open(file_path, "r") as file:
+    with open(file_path, "r", encoding="utf-8") as file:
         return json.load(file)
 
 
@@ -34,8 +35,9 @@ def list_cars() -> list:
     """
     Retrieve the list of cars from the data file.
 
-    This function loads the car data from a JSON file and returns the list of cars. If the 'cars' key is not found,
-    an empty list is returned. If an error occurs while loading the data, an exception is raised.
+    This function loads the car data from a JSON file and returns the list of cars.
+    If the 'cars' key is not found, an empty list is returned.
+    If an error occurs while loading the data, an exception is raised.
 
     :return: A list of cars, or an empty list if no cars are found.
     :raises:
@@ -47,7 +49,7 @@ def list_cars() -> list:
             "cars", []
         )  # Return the list of cars or an empty list if 'cars' key is not found
     except Exception as e:
-        raise RuntimeError(f"Erro ao carregar os carros: {e}")
+        raise RuntimeError(f"Error loading the cars: {e}") from e
 
 
 def create_booking(
@@ -118,7 +120,7 @@ def is_car_available(car_id: int, start_date: str, end_date: str) -> bool:
     :param end_date: The end date of the reservation in 'YYYY-MM-DD' format.
     :return: `True` if the car is available, `False` if it is already booked.
     """
-    with open(get_file_path("bookings.json"), "r") as file:
+    with open(get_file_path("bookings.json"), "r", encoding="utf-8") as file:
         bookings_data = json.load(file)
 
     # Iterate through all bookings
@@ -148,7 +150,7 @@ def check_car_availability(
     :param car_model: The model of the car to check for availability (optional).
     :return: A list of available cars, each represented as a dictionary.
     """
-    with open(get_file_path("cars.json"), "r") as file:
+    with open(get_file_path("cars.json"), "r", encoding="utf-8") as file:
         cars_data = json.load(file)
 
     available_cars = []
