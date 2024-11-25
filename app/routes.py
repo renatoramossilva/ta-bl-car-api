@@ -1,6 +1,7 @@
 """
 This module contains the FastAPI routes for the car booking API.
 """
+
 from typing import Optional
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
