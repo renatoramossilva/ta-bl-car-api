@@ -37,12 +37,14 @@ def mock_create_booking(mocker):
 
 def get_mockfile_path(filename: str) -> pathlib.Path:
     """Return the absolute file path based on the filename."""
-    return pathlib.Path(__file__).parent.parent / "test" / "db" / f"mock_{filename}"
+    return pathlib.Path(__file__).parent.parent / "tests" / "db" / f"mock_{filename}"
 
 
 def test_get_all_cars(mocker, mock_list_cars):
     def mock_get_file_path(filename):
-        return f"db/mock_{filename}"
+        return (
+            pathlib.Path(__file__).parent.parent / "tests" / "db" / f"mock_{filename}"
+        )
 
     mocker.patch("app.services.get_file_path", side_effect=mock_get_file_path)
     response = client.get("/cars/")
@@ -91,7 +93,9 @@ def test_check_car_availability(
     params, reponse_code, response_json, mocker, mock_check_availability
 ):
     def mock_get_file_path(filename):
-        return f"db/mock_{filename}"
+        return (
+            pathlib.Path(__file__).parent.parent / "tests" / "db" / f"mock_{filename}"
+        )
 
     mocker.patch("app.services.get_file_path", side_effect=mock_get_file_path)
     response = client.get("/check_car_availability", params=params)
@@ -102,7 +106,9 @@ def test_check_car_availability(
 
 def test_post_booking_success(mocker, mock_create_booking):
     def mock_get_file_path(filename):
-        return f"db/mock_{filename}"
+        return (
+            pathlib.Path(__file__).parent.parent / "tests" / "db" / f"mock_{filename}"
+        )
 
     mocker.patch("app.services.get_file_path", side_effect=mock_get_file_path)
 
@@ -120,7 +126,9 @@ def test_post_booking_success(mocker, mock_create_booking):
 
 def test_post_booking_conflict(mocker):
     def mock_get_file_path(filename):
-        return f"db/mock_{filename}"
+        return (
+            pathlib.Path(__file__).parent.parent / "tests" / "db" / f"mock_{filename}"
+        )
 
     mocker.patch("app.services.get_file_path", side_effect=mock_get_file_path)
     mocker.patch("app.services.create_booking", return_value=False)
