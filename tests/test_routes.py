@@ -10,7 +10,6 @@ from app.routes import router
 client = TestClient(app)
 
 
-# Mock para os serviços se necessário
 @pytest.fixture
 def mock_list_cars(mocker):
     mocker.patch(
@@ -37,12 +36,25 @@ def mock_create_booking(mocker):
 
 def get_mockfile_path(filename: str) -> pathlib.Path:
     """Return the absolute file path based on the filename."""
-    return pathlib.Path(__file__).parent.parent / "test" / "db" / f"mock_{filename}"
+    return pathlib.Path(__file__).parent.parent / "tests" / "db" / f"mock_{filename}"
+
+
+@pytest.fixture
+def cleanup_bookings():
+    file_path = get_mockfile_path("bookings.json")
+
+    yield  # Run the test
+
+    # After the test, clean up the mock_bookings.json file
+    with open(file_path, "w") as f:
+        json.dump({"bookings": []}, f, indent=4)
 
 
 def test_get_all_cars(mocker, mock_list_cars):
     def mock_get_file_path(filename):
-        return f"db/mock_{filename}"
+        return (
+            pathlib.Path(__file__).parent.parent / "tests" / "db" / f"mock_{filename}"
+        )
 
     mocker.patch("app.services.get_file_path", side_effect=mock_get_file_path)
     response = client.get("/cars/")
@@ -91,7 +103,9 @@ def test_check_car_availability(
     params, reponse_code, response_json, mocker, mock_check_availability
 ):
     def mock_get_file_path(filename):
-        return f"db/mock_{filename}"
+        return (
+            pathlib.Path(__file__).parent.parent / "tests" / "db" / f"mock_{filename}"
+        )
 
     mocker.patch("app.services.get_file_path", side_effect=mock_get_file_path)
     response = client.get("/check_car_availability", params=params)
@@ -102,7 +116,9 @@ def test_check_car_availability(
 
 def test_post_booking_success(mocker, mock_create_booking):
     def mock_get_file_path(filename):
-        return f"db/mock_{filename}"
+        return (
+            pathlib.Path(__file__).parent.parent / "tests" / "db" / f"mock_{filename}"
+        )
 
     mocker.patch("app.services.get_file_path", side_effect=mock_get_file_path)
 
@@ -118,9 +134,12 @@ def test_post_booking_success(mocker, mock_create_booking):
     assert response.json() == {"message": "Booking successfully created!"}
 
 
+@pytest.mark.usefixtures("cleanup_bookings")
 def test_post_booking_conflict(mocker):
     def mock_get_file_path(filename):
-        return f"db/mock_{filename}"
+        return (
+            pathlib.Path(__file__).parent.parent / "tests" / "db" / f"mock_{filename}"
+        )
 
     mocker.patch("app.services.get_file_path", side_effect=mock_get_file_path)
     mocker.patch("app.services.create_booking", return_value=False)
