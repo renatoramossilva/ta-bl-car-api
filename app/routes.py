@@ -2,19 +2,19 @@
 This module contains the FastAPI routes for the car booking API.
 """
 from typing import Optional
-
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 from app.services import check_car_availability
-from app.services import create_booking as create_booking_service
+from app.services import create_booking
 from app.services import list_cars
 
 router = APIRouter()
 
 
 class BookingRequest(BaseModel):
-    """ Pydantic model for the booking request. """
+    """Pydantic model for the booking request."""
+
     car_id: int
     start_date: str
     end_date: str
@@ -52,8 +52,8 @@ def get_all_cars() -> dict:
     try:
         cars = list_cars()
         return {"cars": cars}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e)) from e
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=str(exc)) from exc
 
 
 @router.get("/check_car_availability")
@@ -129,7 +129,7 @@ def post_booking(booking: BookingRequest) -> dict:
     there is an error.
     """
     try:
-        success = create_booking_service(
+        success = create_booking(
             booking.car_id,
             booking.start_date,
             booking.end_date,
@@ -143,4 +143,4 @@ def post_booking(booking: BookingRequest) -> dict:
             status_code=400, detail="Car already booked for the given time range."
         )
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e)) from e
+        raise e

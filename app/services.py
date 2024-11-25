@@ -49,8 +49,8 @@ def list_cars() -> list:
         return data.get(
             "cars", []
         )  # Return the list of cars or an empty list if 'cars' key is not found
-    except Exception as e:
-        raise RuntimeError(f"Error loading the cars: {e}") from e
+    except Exception as exc:
+        raise RuntimeError(f"Error loading the cars: {exc}") from exc
 
 
 def create_booking(
@@ -79,8 +79,6 @@ def create_booking(
     bookings_data = load_data(get_file_path("bookings.json"))
     bookings = bookings_data.get("bookings", [])
 
-    print("bookings")
-    print(bookings)
     # Check if car exists
     car = next((car for car in cars if car["id"] == car_id), None)
     if not car:
@@ -94,8 +92,8 @@ def create_booking(
     if any(
         booking["car_id"] == car_id
         and not (
-            end_date_obj < datetime.strptime(booking["startDate"], "%Y-%m-%d")
-            or start_date_obj > datetime.strptime(booking["endDate"], "%Y-%m-%d")
+            end_date_obj < datetime.strptime(booking["start_date"], "%Y-%m-%d")
+            or start_date_obj > datetime.strptime(booking["end_date"], "%Y-%m-%d")
         )
         for booking in bookings
     ):
@@ -104,10 +102,10 @@ def create_booking(
     # Create and save new booking
     new_booking = {
         "car_id": car_id,
-        "startDate": start_date,
-        "endDate": end_date,
-        "pickupTime": pickup_time,
-        "dropoffTime": dropoff_time,
+        "start_date": start_date,
+        "end_date": end_date,
+        "pickup_time": pickup_time,
+        "dropoff_time": dropoff_time,
     }
     bookings.append(new_booking)
     bookings_data["bookings"] = bookings
@@ -132,8 +130,8 @@ def is_car_available(car_id: int, start_date: str, end_date: str) -> bool:
     for booking in bookings_data:
         if booking["car_id"] == car_id:
             # Convert dates to datetime objects
-            booking_start = datetime.strptime(booking["startDate"], "%Y-%m-%d")
-            booking_end = datetime.strptime(booking["endDate"], "%Y-%m-%d")
+            booking_start = datetime.strptime(booking["start_date"], "%Y-%m-%d")
+            booking_end = datetime.strptime(booking["end_date"], "%Y-%m-%d")
             requested_start = datetime.strptime(start_date, "%Y-%m-%d")
             requested_end = datetime.strptime(end_date, "%Y-%m-%d")
 
