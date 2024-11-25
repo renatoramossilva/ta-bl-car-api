@@ -3,12 +3,11 @@ This module contains the FastAPI routes for the car booking API.
 """
 
 from typing import Optional
+
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
-from app.services import check_car_availability
-from app.services import create_booking
-from app.services import list_cars
+from app.services import check_car_availability, create_booking, list_cars
 
 router = APIRouter()
 

@@ -1,9 +1,9 @@
 """ This module contains the service functions for the car booking API. """
 
-from typing import Optional
 import json
 import pathlib
 from datetime import datetime
+from typing import Optional
 
 
 def get_file_path(filename: str) -> pathlib.Path:

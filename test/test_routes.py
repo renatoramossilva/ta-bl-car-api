@@ -1,9 +1,11 @@
 import json
-import pytest
 import pathlib
+
+import pytest
 from fastapi.testclient import TestClient
-from app.routes import router  # Substitua pelo nome correto do seu arquivo de rotas
-from app.main import app  # Importe a instância principal da sua aplicação
+
+from app.main import app
+from app.routes import router
 
 client = TestClient(app)
 
