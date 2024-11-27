@@ -19,7 +19,7 @@ This application ensures a seamless reservation experience with proper validatio
 - [API Documentation](#api-documentation)
 - [Testing the app](#testing)
 - [Code Quality](#code-quality)
-- [Unit tests](#unit-test)
+- [Unit tests](#unit-tests)
 - [Continuous Integration](#continuous-integration)
 
 
@@ -101,7 +101,7 @@ The documentation is accessible at: http://localhost:8000/docs
 This interface includes detailed information about each endpoint, the required input parameters, response formats, and example requests, allowing developers to understand and integrate with the API effectively.
 
 
-## Testing
+## Testing the app
 
 You can use `curl` command to test the endpoints:
 
