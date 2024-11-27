@@ -17,7 +17,7 @@ This application ensures a seamless reservation experience with proper validatio
 - [Dependency Management with Poetry](#dependency-management-with-poetry)
 - [Project setup](#project-setup)
 - [API Documentation](#api-documentation)
-- [Testing the app](#testing)
+- [Testing the app](#testing-the-app)
 - [Code Quality](#code-quality)
 - [Unit tests](#unit-tests)
 - [Continuous Integration](#continuous-integration)
@@ -73,12 +73,12 @@ docker build -f docker/Dockerfile -t my-fastapi-app .
 docker run --rm -d -p 8000:8000 -p 5001:5001 my-fastapi-app
 ```
 
-`docker run`: Runs a Docker container.
-`--rm`: Automatically removes the container when it stops.
-`-d`: Runs the container in detached mode (in the background).
-`-p 8000:8000`: Maps port 8000 of the host to port 8000 of the container (for the app).
-`-p 5001:5001`: Maps port 5001 of the host to port 5001 of the container (for the coverage report).
-`my-fastapi-app`: The name of the Docker image to run.
+- `docker run`: Runs a Docker container.
+- `--rm`: Automatically removes the container when it stops.
+- `-d`: Runs the container in detached mode (in the background).
+- `-p 8000:8000`: Maps port 8000 of the host to port 8000 of the container (for the app).
+- `-p 5001:5001`: Maps port 5001 of the host to port 5001 of the container (for the coverage report).
+- `my-fastapi-app`: The name of the Docker image to run.
 
 Alternatively, to run the application directly, use:
 
@@ -166,13 +166,13 @@ This project uses several tools to maintain code quality and enforce coding stan
 
 This project uses `pytest` for unit testing to ensure the functionality of key features like car bookings and availability checks.
 
-# Running Tests
+### Running Tests
 
 To run the unit tests locally:
 
 `pytest` or `poetry run pytest`
 
-#### Testing Across Python Versions
+### Testing Across Python Versions
 To verify compatibility with different versions of Python, the project is tested with Python 3.9, 3.10, 3.11, and 3.12. We use `tox` to automate testing across these Python versions.
 
 `tox` or `poetry run tox`
