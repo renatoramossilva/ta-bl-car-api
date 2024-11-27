@@ -16,10 +16,10 @@ This application ensures a seamless reservation experience with proper validatio
 - [Requirements](#requirements)
 - [Dependency Management with Poetry](#dependency-management-with-poetry)
 - [Project setup](#project-setup)
-- [API Documentation](api-documentation)
+- [API Documentation](#api-documentation)
 - [Testing the app](#testing)
 - [Code Quality](#code-quality)
-- [Unit tests](#unity-test)
+- [Unit tests](#unit-test)
 - [Continuous Integration](#continuous-integration)
 
 
@@ -105,7 +105,7 @@ This interface includes detailed information about each endpoint, the required i
 
 You can use `curl` command to test the endpoints:
 
-# `/car/`
+### `/car/`
 
 ```bash
 curl -X 'GET' 'http://127.0.0.1:8000/cars/' -H 'accept: application/json'
@@ -113,7 +113,7 @@ curl -X 'GET' 'http://127.0.0.1:8000/cars/' -H 'accept: application/json'
 {"cars":[{"id":1,"name":"SEAT Ibiza"},{"id":2,"name":"Volkswagen Polo"},{"id":3,"name":"Renault Clio"},{"id":4,"name":"Peugeot 208"},{"id":5,"name":"Ford Fiesta"},{"id":6,"name":"Opel Corsa"},{"id":7,"name":"Citroën C3"},{"id":8,"name":"Toyota Yaris"},{"id":9,"name":"Dacia Sandero"},{"id":10,"name":"Kia Rio"}]}%
 ```
 
-# `booking`
+### `/booking/`
 
 ```bash
 curl -X POST "http://127.0.0.1:8000/booking/" \
@@ -128,7 +128,7 @@ curl -X POST "http://127.0.0.1:8000/booking/" \
 {"message":"Booking successfully created!"}%
 ```
 
-# `check_car_availability` (Specific car - OK)
+### `/check_car_availability/` (Specific car - OK)
 
 ```bash
 curl -X 'GET' 'http://127.0.0.1:8000/check_car_availability?start_date=2024-11-28&end_date=2024-11-29&car_model=Dacia%20Sandero' -H 'accept: application/json'
@@ -136,14 +136,14 @@ curl -X 'GET' 'http://127.0.0.1:8000/check_car_availability?start_date=2024-11-2
 {"available_cars":[{"id":9,"name":"Dacia Sandero"}]}%
 ```
 
-# `check_car_availability` (All cars - OK)
+### `/check_car_availability/` (All cars - OK)
 
 ```bash
 curl -X 'GET' 'http://127.0.0.1:8000/check_car_availability?start_date=2024-11-28&end_date=2024-11-29' -H 'accept: application/json'
 {"available_cars":[{"id":1,"name":"SEAT Ibiza"},{"id":4,"name":"Peugeot 208"},{"id":5,"name":"Ford Fiesta"},{"id":7,"name":"Citroën C3"},{"id":9,"name":"Dacia Sandero"},{"id":10,"name":"Kia Rio"}]}%
 ```
 
-# `check_car_availability` (NOK)
+### `/check_car_availability/` (NOK)
 
 ```bash
 curl -X 'GET' 'http://127.0.0.1:8000/check_car_availability?start_date=2024-11-28&end_date=2024-11-29&car_model=Volkswagen%20Polo' -H 'accept: application/json'
